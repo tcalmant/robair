@@ -1,6 +1,17 @@
-*.class
+# Backup files
+*~
+*.bak
+*.old
 
-# Package Files #
+# Binary files
+*.zip
+*.tar.gz
+*.tgz
+
+# Python binart files
+*.pyc
+
+# Java binary files
+*.class
 *.jar
-*.war
-*.ear
+
