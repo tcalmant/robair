@@ -167,12 +167,16 @@ class Wifibot(object):
 
         # Stop the thread
         self._stop_event.set()
+        current_thread = threading.current_thread()
+
         if self._thread is not None:
-            self._thread.join()
+            if current_thread != self._thread:
+                self._thread.join()
             self._thread = None
 
         if self._read_thread is not None:
-            self._read_thread.join()
+            if current_thread != self._read_thread:
+                self._read_thread.join()
             self._read_thread = None
 
         # Disconnect the robot
