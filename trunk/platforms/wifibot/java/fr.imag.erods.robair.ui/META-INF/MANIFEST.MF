@@ -1,0 +1,33 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RobAIR :: UI Controls
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-SymbolicName: fr.imag.erods.robair.ui
+Bundle-Version: 1.0.0.qualifier
+Created-By: iPOJO  1.8.0
+Import-Package: fr.imag.erods.robair, javax.swing, org.apache.felix.ip
+ ojo;version=1.8.0, org.apache.felix.ipojo.annotations, org.apache.fel
+ ix.ipojo.architecture;version=1.8.0, org.osgi.framework;version=1.3.0
+ , org.osgi.service.cm;version=1.2, org.osgi.service.log;version=1.3
+iPOJO-Components: instance { $component="fr.imag.erods.robair.ui.Robot
+ UI" $name="robair-ui" }component { $classname="fr.imag.erods.robair.u
+ i.RobotUI" $name="robair-ui-factory" $public="false" requires { $fiel
+ d="pController" $optional="true" $id="robot-controller" callback { $m
+ ethod="bindController" $type="bind" }callback { $method="unbindContro
+ ller" $type="unbind" }}callback { $transition="invalidate" $method="i
+ nvalidate" }callback { $transition="validate" $method="validate" }man
+ ipulation { field { $name="pControlPresent" $type="boolean" }field { 
+ $name="pController" $type="fr.imag.erods.robair.IRobotController" }fi
+ eld { $name="pLblLeft" $type="javax.swing.JLabel" }field { $name="pLb
+ lRight" $type="javax.swing.JLabel" }field { $name="pMainFrame" $type=
+ "javax.swing.JFrame" }field { $name="pMotorLeft" $type="int" }field {
+  $name="pMotorRight" $type="int" }field { $name="pPadButtons" $type="
+ java.util.List" }method { $name="bindController" $arguments="{fr.imag
+ .erods.robair.IRobotController}" }method { $name="invalidate" }method
+  { $name="makeUI" }method { $name="normalizeSpeed" $return="int" $arg
+ uments="{int}" }method { $name="onPadButtonEvent" $arguments="{java.a
+ wt.event.ActionEvent,fr.imag.erods.robair.ui.EPadButton}" }method { $
+ name="unbindController" $arguments="{fr.imag.erods.robair.IRobotContr
+ oller}" }method { $name="updateButtons" }method { $name="updateLabels
+ " }method { $name="validate" }}}
+

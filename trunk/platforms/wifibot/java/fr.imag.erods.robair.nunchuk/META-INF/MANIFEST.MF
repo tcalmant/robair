@@ -1,0 +1,34 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RobAIR :: Nunchuk :: Controller
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-SymbolicName: fr.imag.erods.robair.nunchuk
+Bundle-Vendor: LIG ERODS Team
+Bundle-Version: 1.0.0.qualifier
+Created-By: iPOJO  1.8.0
+Import-Package: fr.imag.erods.robair, fr.imag.erods.robair.wiimote, or
+ g.apache.felix.ipojo;version=1.8.0, org.apache.felix.ipojo.annotation
+ s, org.apache.felix.ipojo.architecture;version=1.8.0, org.osgi.servic
+ e.cm;version=1.2, org.osgi.service.log;version=1.3, org.osgi.service.
+ wireadmin;version=1.0.1, org.ow2.jonas.wiimote
+iPOJO-Components: instance { $component="fr.imag.erods.robair.wii.PadC
+ ontroller" $name="robair-wiipad-controller" }instance { $component="f
+ r.imag.erods.robair.wii.WiiMoteFinder" $name="wiimote-finder" }compon
+ ent { $classname="fr.imag.erods.robair.wii.PadController" $name="roba
+ ir-wiipad-controller-factory" $public="true" provides { $specificatio
+ ns="{org.osgi.service.wireadmin.Consumer}" property { $name="wireadmi
+ n.consumer.flavors" $type="String" $value="fr.imag.erods.robair.wiimo
+ te.PadButtonsData" }}requires { $field="pRobot" }properties { propert
+ y { $name="motor.maxspeed" $field="pStep" $value="60" }}manipulation 
+ { interface { $name="org.osgi.service.wireadmin.Consumer" }field { $n
+ ame="pRobot" $type="fr.imag.erods.robair.IRobotController" }field { $
+ name="pStep" $type="int" }method { $name="producersConnected" $argume
+ nts="{org.osgi.service.wireadmin.Wire[]}" }method { $name="updated" $
+ arguments="{org.osgi.service.wireadmin.Wire,java.lang.Object}" }}}com
+ ponent { $classname="fr.imag.erods.robair.wii.WiiMoteFinder" $name="w
+ iimote-finder-factory" $public="true" requires { $field="pFinder" }ca
+ llback { $transition="invalidate" $method="invalidate" }callback { $t
+ ransition="validate" $method="validate" }manipulation { field { $name
+ ="pFinder" $type="IWiimoteFinder" }method { $name="invalidate" }metho
+ d { $name="validate" }}}
+
