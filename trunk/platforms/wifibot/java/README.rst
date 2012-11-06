@@ -12,6 +12,29 @@ Further development will allow to use a Java properties file.
 Requirements
 ************
 
+Eclipse plugins
+===============
+
+This directory contains Eclipse projects, some of them need a specific Eclipse
+plug-in,
+`iPOJO Nature <http://gitorious.ow2.org/ow2-chameleon/eclipse-ipojo-builder>`_.
+
+To install it, you will need to build it with Maven 3:
+
+.. code-block:: bash
+
+   # Grab the code
+   $ git clone http://git.gitorious.ow2.org/ow2-chameleon/eclipse-ipojo-builder.git
+   $ cd eclipse-ipojo-builder
+   # Change of development branch
+   $ git -b new-manipulator origin/new-manipulator
+   # Build it
+   $ cd trunk
+   $ mvn clean install
+
+Then you will have to add the /trunk/update-site/target/site folder as an
+update site in your Eclipse installation.
+
 Jitsi
 =====
 
