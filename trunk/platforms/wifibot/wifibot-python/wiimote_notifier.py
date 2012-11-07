@@ -19,7 +19,7 @@ WIIMOTE_LISTENER = 'arduino.wiimote.listener'
 @Instantiate("wiimote-notifier")
 @Provides(WIIMOTE_LISTENER)
 @Property('_host', 'robair.controller.server', 'localhost')
-@Property('_port', 'robair.controller.port', 8080)
+@Property('_port', 'robair.controller.port', 8090)
 @Property('_uri', 'robair.controller.uri', '/control')
 class WiimoteNotifier(object):
     """
@@ -32,6 +32,7 @@ class WiimoteNotifier(object):
         self._host = None
         self._port = 0
         self._uri = None
+        self._last_speeds = (None, None)
 
     def __compute_speeds(self, joy_x, joy_y, boost):
         """
@@ -46,20 +47,20 @@ class WiimoteNotifier(object):
 
         # Compute speed according to X
         if joy_x < 30:
-            speedL = -2
-            speedR = 2
+            speedL = -1
+            speedR = 1
 
         elif joy_x < 70:
-            speedL = -1
-            speedR = 2
+            speedL = -0.5
+            speedR = 1
 
         elif joy_x > 160:
-            speedL = 2
-            speedR = -2
+            speedL = 1
+            speedR = -1
 
         elif joy_x > 100:
-            speedL = 2
-            speedR = -1
+            speedL = 1
+            speedR = -0.5
 
         else:
             speedL = 1
@@ -79,8 +80,9 @@ class WiimoteNotifier(object):
             ratio = 10
 
         else:
-            if speedL != 2 and speedR != 2:
+            if speedL == speedR:
                 ratio = 0
+
             else:
                 # Robot turns on itself
                 ratio = 10
@@ -111,24 +113,32 @@ class WiimoteNotifier(object):
         # Prepare the order
         speedL, speedR = self.__compute_speeds(values['joyX'], values['joyY'],
                                                values['Zbut'])
-        params = json.dumps({'speedL': speedL, 'speedR': speedR})
-        headers = {
-                   'content-type': 'application/json',
-                   'content-length': len(params),
-                   }
 
-        # Send it
-        try:
-            conn.request('POST', self._uri, params, headers)
+        if self._last_speeds != (speedL, speedR):
+            # New values
+            self._last_speeds = (speedL, speedR)
 
-            # Get the answer
-            conn.getresponse()
-            conn.close()
+            params = json.dumps({'target': 'robot',
+                                 'cmd': 'set',
+                                 'speedL': speedL,
+                                 'speedR': speedR})
+            headers = {
+                       'content-type': 'application/json',
+                       'content-length': len(params),
+                       }
 
-        except Exception as ex:
-            _logger.error("Error sending order to [%s]:%s", self._host,
-                          self._port)
-            return
+            # Send it
+            try:
+                conn.request('POST', self._uri, params, headers)
+
+                # Get the answer
+                conn.getresponse()
+                conn.close()
+
+            except Exception as ex:
+                _logger.error("Error sending order to [%s]:%s", self._host,
+                              self._port)
+                return
 
 
     def handle_wiimote_values(self, values):
@@ -143,6 +153,7 @@ class WiimoteNotifier(object):
         """
         Component invalidated
         """
+        self._last_speeds = (None, None)
         _logger.info("Wiimote notifier invalidated")
 
 
@@ -151,4 +162,5 @@ class WiimoteNotifier(object):
         """
         Component validated
         """
+        self._last_speeds = (None, None)
         _logger.info("Wiimote notifier validated")
