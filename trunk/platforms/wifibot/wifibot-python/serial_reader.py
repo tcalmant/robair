@@ -33,6 +33,7 @@ class SerialNMEAReader(object):
 
         self._ports = {}
 
+        self._references = {}
         self._events = {}
         self._threads = {}
 
@@ -104,6 +105,12 @@ class SerialNMEAReader(object):
         """
         Opens a serial port reading thread
         """
+        # Test if already opened
+        if com_port in self._references:
+            # Add a reference and do nothing more
+            self._references[com_port] += 1
+            return
+
         # Start the reading thread
         event = threading.Event()
         thread = threading.Thread(target=self.__read_port,
@@ -112,6 +119,7 @@ class SerialNMEAReader(object):
 
         self._events[com_port] = event
         self._threads[com_port] = thread
+        self._references[com_port] = 1
 
         thread.start()
 
@@ -120,13 +128,22 @@ class SerialNMEAReader(object):
         """
         Closes the serial port
         """
-        if com_port in self._events:
-            self._events[com_port].set()
-            del self._events[com_port]
+        if com_port in self._references:
+            # Opened port
+            self._references[com_port] -= 1
 
-        if com_port in self._threads:
-            self._threads[com_port].join()
-            del self._threads[com_port]
+            if self._references[com_port] == 0:
+                # No more references: close the port
+                if com_port in self._events:
+                    self._events[com_port].set()
+                    del self._events[com_port]
+
+                if com_port in self._threads:
+                    self._threads[com_port].join()
+                    del self._threads[com_port]
+
+                # Remove the reference
+                del self._references[com_port]
 
 
     @Bind
@@ -181,6 +198,7 @@ class SerialNMEAReader(object):
 
         self._events.clear()
         self._threads.clear()
+        self._references.clear()
 
 
     @Validate
@@ -190,3 +208,4 @@ class SerialNMEAReader(object):
         """
         self._events.clear()
         self._threads.clear()
+        self._references.clear()
