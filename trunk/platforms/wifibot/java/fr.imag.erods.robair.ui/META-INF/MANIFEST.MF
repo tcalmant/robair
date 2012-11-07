@@ -6,9 +6,9 @@ Bundle-SymbolicName: fr.imag.erods.robair.ui
 Bundle-Version: 1.0.0.qualifier
 Created-By: iPOJO  1.8.0
 Import-Package: fr.imag.erods.robair, javax.swing, org.apache.felix.ip
- ojo;version=1.8.0, org.apache.felix.ipojo.annotations, org.apache.fel
- ix.ipojo.architecture;version=1.8.0, org.osgi.framework;version=1.3.0
- , org.osgi.service.cm;version=1.2, org.osgi.service.log;version=1.3
+ ojo;version=1.8.0, org.apache.felix.ipojo.architecture;version=1.8.0,
+  org.osgi.framework;version=1.3.0, org.osgi.service.cm;version=1.2, o
+ rg.osgi.service.log;version=1.3
 iPOJO-Components: instance { $component="fr.imag.erods.robair.ui.Robot
  UI" $name="robair-ui" }component { $classname="fr.imag.erods.robair.u
  i.RobotUI" $name="robair-ui-factory" $public="false" requires { $fiel

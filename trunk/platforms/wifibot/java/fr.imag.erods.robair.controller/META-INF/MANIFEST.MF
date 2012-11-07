@@ -6,9 +6,8 @@ Bundle-SymbolicName: fr.imag.erods.robair.controller
 Bundle-Version: 1.0.0.qualifier
 Created-By: iPOJO  1.8.0
 Import-Package: fr.imag.erods.robair, org.apache.felix.ipojo;version=1
- .8.0, org.apache.felix.ipojo.annotations, org.apache.felix.ipojo.arch
- itecture;version=1.8.0, org.osgi.service.cm;version=1.2, org.osgi.ser
- vice.log;version=1.3
+ .8.0, org.apache.felix.ipojo.architecture;version=1.8.0, org.osgi.ser
+ vice.cm;version=1.2, org.osgi.service.log;version=1.3
 iPOJO-Components: instance { $component="fr.imag.erods.robair.controll
  er.HttpCom" $name="robair-http" }instance { $component="fr.imag.erods
  .robair.controller.RobotController" $name="robair-controller" }compon
@@ -19,33 +18,16 @@ iPOJO-Components: instance { $component="fr.imag.erods.robair.controll
  me="fr.imag.erods.robair.IRobotCommunication" }field { $name="pHttpUr
  l" $type="java.lang.String" }method { $name="sendMessage" $arguments=
  "{java.lang.String,java.lang.String}" }}}component { $classname="fr.i
- mag.erods.robair.controller.JitsiCom" $name="jitsi-com-factory" $publ
- ic="true" provides { $specifications="{fr.imag.erods.robair.IRobotCom
- munication}" controller { $field="pServiceControl" }}requires { $aggr
- egate="true" $id="protocol-provider" callback { $method="bindProvider
- Service" $type="bind" }callback { $method="unbindProviderService" $ty
- pe="unbind" }}manipulation { interface { $name="fr.imag.erods.robair.
- IRobotCommunication" }field { $name="pProtocolServices" $type="java.u
- til.List" }field { $name="pServiceControl" $type="boolean" }method { 
- $name="acceptProtocolProvider" $return="boolean" $arguments="{Protoco
- lProviderService}" }method { $name="bindProviderService" $arguments="
- {ProtocolProviderService}" }method { $name="createUnresolvedContact" 
- $return="Contact" $arguments="{ProtocolProviderService,java.lang.Stri
- ng}" }method { $name="getBasicIM" $return="OperationSetBasicInstantMe
- ssaging" $arguments="{ProtocolProviderService}" }method { $name="send
- Message" $arguments="{java.lang.String,java.lang.String}" }method { $
- name="unbindProviderService" $arguments="{ProtocolProviderService}" }
- method { $name="updateServiceState" }}}component { $classname="fr.ima
- g.erods.robair.controller.RobotController" $name="robair-controller-f
- actory" $public="true" provides { $specifications="{fr.imag.erods.rob
- air.IRobotController}" }requires { $field="pCommunication" }propertie
- s { property { $name="robot.xmpp.address" $field="pRobotXmppAddress" 
- $value="tom87.21@gmail.com" }}manipulation { interface { $name="fr.im
- ag.erods.robair.IRobotController" }field { $name="pCommunication" $ty
- pe="fr.imag.erods.robair.IRobotCommunication" }field { $name="pRobotX
- mppAddress" $type="java.lang.String" }method { $name="normalizeSpeed"
-  $return="int" $arguments="{int}" }method { $name="reset" }method { $
- name="sendCommand" $arguments="{java.lang.String,java.util.Map}" }met
- hod { $name="setMotors" $arguments="{int,int}" }method { $name="toJso
- n" $return="java.lang.String" $arguments="{java.util.Map}" }}}
+ mag.erods.robair.controller.RobotController" $name="robair-controller
+ -factory" $public="true" provides { $specifications="{fr.imag.erods.r
+ obair.IRobotController}" }requires { $field="pCommunication" }propert
+ ies { property { $name="robot.xmpp.address" $field="pRobotXmppAddress
+ " $value="tom87.21@gmail.com" }}manipulation { interface { $name="fr.
+ imag.erods.robair.IRobotController" }field { $name="pCommunication" $
+ type="fr.imag.erods.robair.IRobotCommunication" }field { $name="pRobo
+ tXmppAddress" $type="java.lang.String" }method { $name="normalizeSpee
+ d" $return="int" $arguments="{int}" }method { $name="reset" }method {
+  $name="sendCommand" $arguments="{java.lang.String,java.util.Map}" }m
+ ethod { $name="setMotors" $arguments="{int,int}" }method { $name="toJ
+ son" $return="java.lang.String" $arguments="{java.util.Map}" }}}
 
