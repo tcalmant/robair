@@ -1,7 +1,7 @@
 /**
  * 
  */
-package fr.imag.erods.robair.controller;
+package fr.imag.erods.robair.jitsi;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +13,7 @@ import net.java.sip.communicator.service.protocol.ProtocolProviderService;
 
 import org.apache.felix.ipojo.annotations.Bind;
 import org.apache.felix.ipojo.annotations.Component;
+import org.apache.felix.ipojo.annotations.Instantiate;
 import org.apache.felix.ipojo.annotations.Provides;
 import org.apache.felix.ipojo.annotations.ServiceController;
 import org.apache.felix.ipojo.annotations.Unbind;
@@ -26,7 +27,7 @@ import fr.imag.erods.robair.IRobotCommunication;
  */
 @Component(name = "jitsi-com-factory")
 @Provides(specifications = IRobotCommunication.class)
-// @Instantiate(name = "jitsi-com")
+@Instantiate(name = "jitsi-com")
 public class JitsiCom implements IRobotCommunication {
 
 	/** Provider service iPOJO dependency ID */

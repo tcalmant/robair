@@ -1,0 +1,36 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RobAIR :: Jitsi Communications
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-SymbolicName: fr.imag.erods.robair.jitsi
+Bundle-Vendor: LIG ERODS Team
+Bundle-Version: 1.0.0.qualifier
+Created-By: iPOJO  1.8.0
+Import-Package: fr.imag.erods.robair, net.java.sip.communicator.servic
+ e.protocol, org.apache.felix.ipojo;version=1.8.0, org.apache.felix.ip
+ ojo.architecture;version=1.8.0, org.osgi.service.cm;version=1.2, org.
+ osgi.service.log;version=1.3
+iPOJO-Components: instance { $component="fr.imag.erods.robair.jitsi.Ji
+ tsiCom" $name="jitsi-com" }component { $classname="fr.imag.erods.roba
+ ir.jitsi.JitsiCom" $name="jitsi-com-factory" $public="true" provides 
+ { $specifications="{fr.imag.erods.robair.IRobotCommunication}" contro
+ ller { $field="pServiceControl" }}requires { $aggregate="true" $id="p
+ rotocol-provider" callback { $method="bindProviderService" $type="bin
+ d" }callback { $method="unbindProviderService" $type="unbind" }}manip
+ ulation { interface { $name="fr.imag.erods.robair.IRobotCommunication
+ " }field { $name="pProtocolServices" $type="java.util.List" }field { 
+ $name="pServiceControl" $type="boolean" }method { $name="acceptProtoc
+ olProvider" $return="boolean" $arguments="{net.java.sip.communicator.
+ service.protocol.ProtocolProviderService}" }method { $name="bindProvi
+ derService" $arguments="{net.java.sip.communicator.service.protocol.P
+ rotocolProviderService}" }method { $name="createUnresolvedContact" $r
+ eturn="net.java.sip.communicator.service.protocol.Contact" $arguments
+ ="{net.java.sip.communicator.service.protocol.ProtocolProviderService
+ ,java.lang.String}" }method { $name="getBasicIM" $return="net.java.si
+ p.communicator.service.protocol.OperationSetBasicInstantMessaging" $a
+ rguments="{net.java.sip.communicator.service.protocol.ProtocolProvide
+ rService}" }method { $name="sendMessage" $arguments="{java.lang.Strin
+ g,java.lang.String}" }method { $name="unbindProviderService" $argumen
+ ts="{net.java.sip.communicator.service.protocol.ProtocolProviderServi
+ ce}" }method { $name="updateServiceState" }}}
+
