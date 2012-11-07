@@ -20,14 +20,19 @@ iPOJO-Components: instance { $component="fr.imag.erods.robair.controll
  "{java.lang.String,java.lang.String}" }}}component { $classname="fr.i
  mag.erods.robair.controller.RobotController" $name="robair-controller
  -factory" $public="true" provides { $specifications="{fr.imag.erods.r
- obair.IRobotController}" }requires { $field="pCommunication" }propert
- ies { property { $name="robot.xmpp.address" $field="pRobotXmppAddress
- " $value="tom87.21@gmail.com" }}manipulation { interface { $name="fr.
- imag.erods.robair.IRobotController" }field { $name="pCommunication" $
- type="fr.imag.erods.robair.IRobotCommunication" }field { $name="pRobo
- tXmppAddress" $type="java.lang.String" }method { $name="normalizeSpee
- d" $return="int" $arguments="{int}" }method { $name="reset" }method {
-  $name="sendCommand" $arguments="{java.lang.String,java.util.Map}" }m
- ethod { $name="setMotors" $arguments="{int,int}" }method { $name="toJ
- son" $return="java.lang.String" $arguments="{java.util.Map}" }}}
+ obair.IRobotController}" }requires { $field="pCommunications" }proper
+ ties { property { $name="robot.xmpp.address" $field="pRobotXmppAddres
+ s" $value="tom87.21@gmail.com" }}callback { $transition="invalidate" 
+ $method="invalidate" }callback { $transition="validate" $method="vali
+ date" }manipulation { interface { $name="fr.imag.erods.robair.IRobotC
+ ontroller" }field { $name="pCommunications" $type="fr.imag.erods.roba
+ ir.IRobotCommunication[]" }field { $name="pExecutor" $type="java.util
+ .concurrent.ExecutorService" }field { $name="pRobotXmppAddress" $type
+ ="java.lang.String" }method { $name="invalidate" }method { $name="nor
+ malizeSpeed" $return="int" $arguments="{int}" }method { $name="reset"
+  }method { $name="sendCommand" $arguments="{java.lang.String,java.uti
+ l.Map}" }method { $name="sendRunner" $arguments="{java.lang.String}" 
+ }method { $name="setMotors" $arguments="{int,int}" }method { $name="t
+ oJson" $return="java.lang.String" $arguments="{java.util.Map}" }metho
+ d { $name="validate" }}}
 

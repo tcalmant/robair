@@ -6,12 +6,17 @@ package fr.imag.erods.robair.controller;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Instantiate;
+import org.apache.felix.ipojo.annotations.Invalidate;
 import org.apache.felix.ipojo.annotations.Property;
 import org.apache.felix.ipojo.annotations.Provides;
 import org.apache.felix.ipojo.annotations.Requires;
+import org.apache.felix.ipojo.annotations.Validate;
 
 import fr.imag.erods.robair.IRobotCommunication;
 import fr.imag.erods.robair.IRobotController;
@@ -44,11 +49,35 @@ public class RobotController implements IRobotController {
 
 	/** The communication service */
 	@Requires
-	private IRobotCommunication pCommunication;
+	private IRobotCommunication[] pCommunications;
 
-	/** The robot xmpp address */
+	/** The command sender */
+	private ExecutorService pExecutor;
+
+	/** The robot XMPP address */
 	@Property(name = "robot.xmpp.address", value = "tom87.21@gmail.com")
 	private String pRobotXmppAddress;
+
+	/**
+	 * Component invalidated
+	 */
+	@Invalidate
+	public void invalidate() {
+
+		// Send a final reset
+		pExecutor.shutdownNow();
+		reset();
+		try {
+			pExecutor.awaitTermination(5, TimeUnit.SECONDS);
+
+		} catch (final InterruptedException e) {
+			// Do nothing...
+		}
+
+		// Clean up
+		pExecutor.shutdownNow();
+		pExecutor = null;
+	}
 
 	/**
 	 * Normalizes the speed between -60 and +60
@@ -103,7 +132,33 @@ public class RobotController implements IRobotController {
 		command.put(ORDER_CMD, aCommand);
 
 		// Send the message
-		pCommunication.sendMessage(pRobotXmppAddress, toJson(command));
+		final Runnable job = new Runnable() {
+
+			@Override
+			public void run() {
+				sendRunner(toJson(command));
+			}
+		};
+
+		pExecutor.submit(job);
+	}
+
+	/**
+	 * Method to be ran in the sending thread
+	 * 
+	 * @param aData
+	 *            Data to send
+	 */
+	private void sendRunner(final String aData) {
+
+		for (final IRobotCommunication com : pCommunications) {
+			try {
+				com.sendMessage(pRobotXmppAddress, aData);
+
+			} catch (final Exception ex) {
+				ex.printStackTrace();
+			}
+		}
 	}
 
 	/*
@@ -157,5 +212,14 @@ public class RobotController implements IRobotController {
 
 		builder.append("}");
 		return builder.toString();
+	}
+
+	/**
+	 * Component validated
+	 */
+	@Validate
+	public void validate() {
+
+		pExecutor = Executors.newSingleThreadScheduledExecutor();
 	}
 }
