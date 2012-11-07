@@ -2,7 +2,7 @@
 # -- Content-Encoding: UTF-8 --
 
 from pelix.ipopo.decorators import ComponentFactory, Instantiate, Validate, \
-    Invalidate, Property, Requires, Provides
+    Invalidate, Property, Requires, Provides, Bind, Unbind
 import pelix.framework as pelix
 
 import logging
@@ -14,9 +14,13 @@ _logger = logging.getLogger(__name__)
 
 # ------------------------------------------------------------------------------
 
+ORDER_HANDLER = 'robair.handler.order'
+ORDER_TARGETS = 'robair.handler.targets'
+
 @ComponentFactory("order-dispatcher-factory")
 @Instantiate("order-dispatcher")
 @Provides('robair.order.dispatcher')
+@Requires('_order_handlers', ORDER_HANDLER, aggregate=True, optional=True)
 @Requires('_robot', 'robair.control', optional=True)
 class OrderDispatcher(object):
     """
@@ -26,6 +30,9 @@ class OrderDispatcher(object):
         """
         Sets up the object
         """
+        self._order_handlers = []
+        self._target_handlers = {}
+
         self._robot = None
         self._lock = threading.Lock()
 
@@ -56,44 +63,76 @@ class OrderDispatcher(object):
             if not self._robot:
                 raise Exception("No robot control service available")
 
+            # Get the target
             target = order['target']
-            cmd = order['cmd']
+            handlers = self._target_handlers.get(target, None)
+            if handlers is None:
+                # No handler for this target
+                raise Exception("No handler for target {0}".format(target))
 
-            if target == 'robot':
-                if cmd == 'set':
-                    if 'speedL' in order:
-                        speedL = order['speedL']
-                        speedR = order.get('speedR', speedL)
+            # Get the command
+            command = order['cmd']
 
-                    elif 'speed' in order:
-                        speedL = speedR = order['speed']
+            # Get the arguments, i.e. what's left
+            arguments = order.copy()
+            del arguments['target']
+            del arguments['cmd']
 
-                    self._robot.set_motors(speedL, speedR)
-                    return "Speed set: left {0}; right {1}" \
-                        .format(speedL, speedR)
+            results = []
+            for handler in handlers:
+                # Call handlers
+                try:
+                    results.append(handler.handle_order(target, command,
+                                                        arguments))
 
-                elif cmd == 'reset':
-                    self._robot.reset()
-                    return "Control reset"
+                except Exception as ex:
+                    # Just log it
+                    _logger.exception("Error calling order handler: %s", ex)
 
-                elif cmd == 'get':
-                    return json.dumps(self._robot.get_data())
+            return json.dumps({'results': results})
+
+
+    @Bind
+    def bind(self, svc, svc_ref):
+        """
+        Called when a dependency is bound
+        """
+        with self._lock:
+            if ORDER_HANDLER in svc_ref.get_property(pelix.OBJECTCLASS):
+                targets = svc_ref.get_property(ORDER_TARGETS)
+                if isinstance(targets, (list, tuple)):
+                    for target in targets:
+                        self._target_handlers.setdefault(target, []).append(svc)
 
                 else:
-                    raise Exception("Unknown command '{0}' for target '{1}'" \
-                                    .format(cmd, target))
+                    self._target_handlers.setdefault(str(targets), []).append(svc)
 
-            else:
-                raise Exception("Unknown target: {0}".format(target))
 
-        return "No result for command '{0}' on target '{1}'".format(cmd, target)
+    @Unbind
+    def unbind(self, svc, svc_ref):
+        """
+        Called when a dependency is gone
+        """
+        with self._lock:
+            if ORDER_HANDLER in svc_ref.get_property(pelix.OBJECTCLASS):
+                targets = svc_ref.get_property(ORDER_TARGETS)
+                if isinstance(targets, (list, tuple)):
+                    for target in targets:
+                        associates = self._target_handlers.get(target, None)
+                        if svc in associates:
+                            del associates[svc]
 
+                else:
+                    associates = self._target_handlers.get(str(targets), None)
+                    if svc in associates:
+                        del associates[svc]
 
     @Validate
     def validate(self, context):
         """
         Component validation"
         """
+        self._target_handlers.clear()
         _logger.info("OrderDispatcher validated")
 
 
@@ -102,4 +141,5 @@ class OrderDispatcher(object):
         """
         Component invalidation"
         """
+        self._target_handlers.clear()
         _logger.info("OrderDispatcher invalidated")

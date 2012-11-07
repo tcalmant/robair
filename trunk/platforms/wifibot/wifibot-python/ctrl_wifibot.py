@@ -12,16 +12,19 @@ _logger = logging.getLogger(__name__)
 
 # ------------------------------------------------------------------------------
 
+ORDER_HANDLER = 'robair.handler.order'
+ORDER_TARGETS = 'robair.handler.targets'
+
 @ComponentFactory("wifibot-tcp-controller")
 @Instantiate('wifibot-tcp-controller')
-@Provides('robair.control', '_svc_controller')
+@Provides(('robair.control', ORDER_HANDLER), '_svc_controller')
+@Property('_order_target', ORDER_TARGETS, 'robot')
 @Property('_server', 'wifibot.server', '192.168.16.173')
 @Property('_port', 'wifibot.port', 15020)
 class WifibotController(object):
     """
     Wifibot TCP controller component
     """
-
     def __init__(self):
         """
         Sets up the object
@@ -31,6 +34,37 @@ class WifibotController(object):
 
         self._server = None
         self._port = None
+
+
+    def handle_order(self, target, command, extra):
+        """
+        Handles a direct order
+        """
+        if target != 'robot':
+            # Not for us
+            raise Exception('Unhandled target: {0}'.format(target))
+
+        if command == 'get':
+            return self.get_data()
+
+        elif command == 'reset':
+            self.reset()
+            return "Control reset"
+
+        elif command == 'set':
+
+            if 'speed' in extra:
+                speedL = speedR = extra['speed']
+
+            else:
+                speedL = extra['speedL']
+                speedR = extra['speedR']
+
+            self.set_motors(speedL, speedR)
+            return "Speed set: left {0}; right {1}".format(speedL, speedR)
+
+        else:
+            raise Exception('Unknown command: {0}'.format(command))
 
 
     def get_data(self):

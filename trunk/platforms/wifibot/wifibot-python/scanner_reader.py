@@ -16,13 +16,18 @@ SERIAL_LISTENER = 'serial.nmea.listener'
 FLAME_LISTENER = 'robair.flame.listener'
 SCANNER_LISTENER = 'robair.scanner.listener'
 
+ORDER_HANDLER = 'robair.handler.order'
+ORDER_TARGETS = 'robair.handler.targets'
+
 # ------------------------------------------------------------------------------
 
 @ComponentFactory("arduino-flame-factory")
 @Instantiate("arduino-flame")
 @Provides(SERIAL_LISTENER)
+@Provides(ORDER_HANDLER)
 @Requires('_serial', 'serial.nmea.reader')
 @Requires('_listeners', FLAME_LISTENER, True, True)
+@Property('_order_targets', ORDER_TARGETS, 'flame_detector')
 @Property('_nmea_kinds', 'nmea.kinds', '$FLAME')
 @Property('_com_port', 'com.port', '/dev/ttyUSB0')
 @Property('_baud_rate', 'com.baud_rate', 4800)
@@ -89,6 +94,19 @@ class FlameNotifier(object):
             return self._values.copy()
 
 
+    def handle_order(self, target, command, extra):
+        """
+        Handles a direct order
+        """
+        if 'flame' not in target:
+            raise Exception('Unknown target: {0}'.format(target))
+
+        if command == 'get':
+            return self.get_data()
+
+        raise Exception('Unknown command {0} for {1}'.format(command, target))
+
+
     def handle_nmea_data(self, nmea_parts):
         """
         A NMEA line has been decoded
@@ -134,8 +152,10 @@ class FlameNotifier(object):
 @ComponentFactory("arduino-scanner-factory")
 @Instantiate("arduino-scanner")
 @Provides(SERIAL_LISTENER)
+@Provides(ORDER_HANDLER)
 @Requires('_serial', 'serial.nmea.reader')
 @Requires('_listeners', SCANNER_LISTENER, True, True)
+@Property('_order_targets', ORDER_TARGETS, 'scanner')
 @Property('_nmea_kinds', 'nmea.kinds', '$USDIS')
 @Property('_com_port', 'com.port', '/dev/ttyUSB0')
 @Property('_baud_rate', 'com.baud_rate', 4800)
@@ -200,6 +220,19 @@ class ScannerNotifier(object):
         """
         with self._lock:
             return self._values.copy()
+
+
+    def handle_order(self, target, command, extra):
+        """
+        Handles a direct order
+        """
+        if target != 'scanner':
+            raise Exception('Unknown target: {0}'.format(target))
+
+        if command == 'get':
+            return self.get_data()
+
+        raise Exception('Unknown command {0} for {1}'.format(command, target))
 
 
     def handle_nmea_data(self, nmea_parts):
