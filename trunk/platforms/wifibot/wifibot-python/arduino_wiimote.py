@@ -64,14 +64,16 @@ class ArduinoWiimote(object):
         if WIIMOTE_LISTENER in svc_ref.get_property(pelix.OBJECTCLASS):
             with self._lock:
                 if self._values:
-                    svc.handleWiimoteValues(self._values.copy())
+                    svc.handle_wiimote_values(self._values.copy())
 
 
     def _parse_nmea(self, parts):
         """
         Parses an Arduino Wiimote line:
         
-        $WICHK,JOYX,JOYY,ACCX,ACCY,ACCZ,ZBUT,CBUT*CHECKSUM[CR][LF] 
+        $WICHK,JOYX,JOYY,ACCX,ACCY,ACCZ,ZBUT,CBUT*CHECKSUM
+        
+        .. important:: Must be called with self._lock acquired 
         """
         idx = 1
         needs_update = False
@@ -114,6 +116,14 @@ class ArduinoWiimote(object):
         return needs_update
 
 
+    def get_data(self):
+        """
+        Retrieves a copy of the latest read values
+        """
+        with self._lock:
+            return self._values.copy()
+
+
     def handle_nmea_data(self, nmea_parts):
         """
         A NMEA line has been decoded
@@ -126,24 +136,11 @@ class ArduinoWiimote(object):
             self.__notify_listeners(values_copy)
 
 
-    def get_data(self):
-        """
-        Retrieves a copy of the latest read values
-        """
-        with self._lock:
-            return self._values.copy()
-
-
     @Invalidate
     def invalidate(self, context):
         """
         Component invalidated
         """
-        self._stop_event.set()
-        if self._thread is not None:
-            self._thread.join()
-            self._thread = None
-
         # Close the port
         self._serial.close_port(self._com_port)
 

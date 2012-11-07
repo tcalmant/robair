@@ -143,7 +143,7 @@ class WiimoteNotifier(object):
         """
         Component invalidated
         """
-        _logger.info("Wiimote notifier validated")
+        _logger.info("Wiimote notifier invalidated")
 
 
     @Validate
@@ -152,4 +152,3 @@ class WiimoteNotifier(object):
         Component validated
         """
         _logger.info("Wiimote notifier validated")
-
