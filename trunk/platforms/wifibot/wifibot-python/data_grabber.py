@@ -23,7 +23,7 @@ SCANNER_LISTENER = 'robair.scanner.listener'
 @Property('_host', 'robair.data.server', 'localhost')
 @Property('_port', 'robair.data.port', 8080)
 @Property('_uri', 'robair.data.uri', '/data')
-class WiimoteNotifier(object):
+class DataGrabber(object):
     """
     Reads lines from an Arduino
     """
