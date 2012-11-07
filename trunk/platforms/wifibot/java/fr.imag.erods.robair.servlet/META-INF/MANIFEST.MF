@@ -1,0 +1,36 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RobAIR :: HTTP Servlets
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-SymbolicName: fr.imag.erods.robair.servlet
+Bundle-Vendor: LIG ERODS Team
+Bundle-Version: 1.0.0.qualifier
+Created-By: iPOJO  1.8.0
+Import-Package: fr.imag.erods.robair, javax.servlet, javax.servlet.htt
+ p, org.apache.felix.ipojo;version=1.8.0, org.apache.felix.ipojo.archi
+ tecture;version=1.8.0, org.json, org.osgi.service.cm;version=1.2, org
+ .osgi.service.http;version=1.2.0, org.osgi.service.log;version=1.3
+iPOJO-Components: instance { $component="fr.imag.erods.robair.servlet.
+ ControlServlet" $name="robair-control-servlet" }component { $classnam
+ e="fr.imag.erods.robair.servlet.ControlServlet" $name="robair-control
+ -servlet-factory" $public="true" requires { $field="pController" $opt
+ ional="true" $id="robot-controller" callback { $method="bindControlle
+ r" $type="bind" }callback { $method="unbindController" $type="unbind"
+  }}requires { $field="pHttpService" }properties { property { $name="r
+ obair.control.servlet.path" $field="pPath" }}callback { $transition="
+ invalidate" $method="invalidate" }callback { $transition="validate" $
+ method="validate" }manipulation { $super="javax.servlet.http.HttpServ
+ let" field { $name="pController" $type="fr.imag.erods.robair.IRobotCo
+ ntroller" }field { $name="pControllerPresent" $type="boolean" }field 
+ { $name="pHttpService" $type="org.osgi.service.http.HttpService" }fie
+ ld { $name="pPath" $type="java.lang.String" }method { $name="bindCont
+ roller" $arguments="{fr.imag.erods.robair.IRobotController}" }method 
+ { $name="doGet" $arguments="{javax.servlet.http.HttpServletRequest,ja
+ vax.servlet.http.HttpServletResponse}" }method { $name="doPost" $argu
+ ments="{javax.servlet.http.HttpServletRequest,javax.servlet.http.Http
+ ServletResponse}" }method { $name="executeOrder" $arguments="{org.jso
+ n.JSONObject}" }method { $name="invalidate" }method { $name="readJson
+ " $return="org.json.JSONObject" $arguments="{java.io.BufferedReader}"
+  }method { $name="unbindController" $arguments="{fr.imag.erods.robair
+ .IRobotController}" }method { $name="validate" }}}
+
