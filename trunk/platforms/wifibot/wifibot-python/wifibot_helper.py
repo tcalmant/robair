@@ -7,7 +7,6 @@ import serial
 import socket
 import struct
 import threading
-import time
 
 import wifibot
 
@@ -78,8 +77,8 @@ class Wifibot(object):
 
             except Exception as ex:
                 # Some error occurred, log and wait
-                _logger.exception("Error connecting the TCP server: %s", ex)
-                time.sleep(.200)
+                _logger.error("Error connecting the TCP server: %s", ex)
+                self._stop_event.wait(.500)
 
 
     def __start_tcp(self, server_ip, server_port):
