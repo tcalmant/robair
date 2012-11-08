@@ -1,5 +1,11 @@
 #!/usr/bin/python
 # -- Content-Encoding: UTF-8 --
+"""
+Entry point script to run on the wifibot
+
+Receives orders from HTTP or XMPP and applies them.
+Grabs data from sensors.
+"""
 
 import pelix.framework as pelix
 import logging
@@ -20,10 +26,10 @@ BUNDLES = ('httpsvc',  # The HTTP service
            'com_http',  # The HTTP control servlet
            'com_xmpp',  # The XMPP control client
            'order_dispatcher',  # The order dispatcher
-           'ctrl_wifibot',  # The wifibot controller
-           'pelix.shell.core',
-           'pelix.shell.ipopo',
-           'pelix.shell.remote'
+           'ctrl_wifibot',  # The wifibot controller (via TCP)
+           'serial_reader',  # The serial port reader (for the scanner)
+           'scanner_reader',  # The scanner data reader
+           'data_grabber',  # The data order handler
            )
 
 def main():
@@ -33,14 +39,17 @@ def main():
     _logger = logging.getLogger("robair.main")
 
     props = {
+             # HTTP server port
              'http.port': 8000,
-             # Change if the script is ran outside the robo
+
+             # Change if the script is ran outside the robot
              'wifibot.server': 'localhost',
              'wifibot.port': 15020,
+
              # TODO: to change according to your XMPP provider
-             'xmpp.domain': 'localhost', # gmail.com for GTalk
-             'xmpp.server': 'localhost', # talk.google.com for GTalk
-             'xmpp.userid': 'robair', # User ID, without @gmail.com
+             'xmpp.domain': 'gmail.com',  #  gmail.com for GTalk
+             'xmpp.server': 'talk.google.com',  # talk.google.com for GTalk
+             'xmpp.userid': 'robair',  # User ID, without @gmail.com
              'xmpp.password': 'robair',
              }
 
