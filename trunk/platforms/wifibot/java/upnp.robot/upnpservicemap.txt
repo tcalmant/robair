@@ -1,0 +1,5 @@
+urn:schemas-robair-org:service:Chassis:1=org.robair.wifibot.model.ChassisModel;org.robair.wifibot.controlpoint.ChassisProxyImpl
+urn:schemas-robair-org:service:IM:1=org.robair.wifibot.model.IMModel;org.robair.wifibot.controlpoint.IMProxyImpl
+urn:schemas-robair-org:service:Sensor:1=org.robair.wifibot.model.SensorModel;org.robair.wifibot.controlpoint.SensorProxyImpl
+urn:schemas-robair-org:service:DistanceSensor:1=org.robair.wifibot.model.DistanceSensorModel;org.robair.wifibot.controlpoint.DistanceSensorProxyImpl
+urn:schemas-robair-org:service:PositionSensor:1=org.robair.wifibot.model.PositionSensorModel;org.robair.wifibot.controlpoint.PositionSensorProxyImpl

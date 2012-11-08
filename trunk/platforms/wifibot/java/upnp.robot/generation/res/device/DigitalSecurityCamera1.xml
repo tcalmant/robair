@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<root>
+	<!-- Cut and paste from ??? -->
+	<specVersion>
+		<major>1</major>
+		<minor>0</minor>
+	</specVersion>
+	<URLBase>http://www.apache.org/~donsez/dev/osgi/upnp.devicegen</URLBase>
+	<device>
+		<deviceType>urn:schemas-upnp-org:device:DigitalSecurityCamera:1</deviceType>
+		<friendlyName>Generated Digital Security Camera UPnP Device</friendlyName>
+		<manufacturer>Didier Donsez (Felix team)</manufacturer>
+		<manufacturerURL>http://www.apache.org/~donsez</manufacturerURL>
+		<modelDescription>Generated Digital Security Camera UPnP Device</modelDescription>
+		<modelName>Digital Security Camera</modelName>
+		<modelNumber>123</modelNumber>
+		<modelURL>http://www.apache.org/~donsez/dev/osgi/upnp.devicegen/readme.html</modelURL>
+		<serialNumber>123456789</serialNumber>
+		<UDN>uuid:adele-securitycamera</UDN>
+		<UPC>upc:adele-securitycamera</UPC>
+		<iconList>
+			<icon>
+				<mimetype>image/png</mimetype>
+				<width>48</width>
+				<height>48</height>
+				<depth>16</depth>
+				<url>/icon/Webcam.png</url>
+			</icon>
+		</iconList>
+		
+			<serviceList>
+				<service>
+					<serviceType>urn:schemas-upnp-org:service:DigitalSecurityCameraSettings:1</serviceType>
+					<serviceId>urn:upnp-org:serviceId:DigitalSecurityCameraSettings:1</serviceId>
+					<SCPDURL>URL to service description</SCPDURL>
+					<controlURL>URL for control</controlURL>
+					<eventSubURL>URL for eventing</eventSubURL>
+				</service>
+
+				<service>
+					<serviceType>urn:schemas-upnp-org:service:DigitalSecurityCameraStillImage:1</serviceType>
+					<serviceId>urn:upnp-org:serviceId:DigitalSecurityCameraStillImage:1</serviceId>
+					<SCPDURL>URL to service description</SCPDURL>
+					<controlURL>URL for control</controlURL>
+					<eventSubURL>URL for eventing</eventSubURL>
+				</service>
+					
+				<service>
+					<serviceType>urn:schemas-upnp-org:service:DigitalSecurityCameraMotionImage:1</serviceType>
+					<serviceId>urn:upnp-org:serviceId:DigitalSecurityCameraMotionImage:1</serviceId>
+					<SCPDURL>URL to service description</SCPDURL>
+					<controlURL>URL for control</controlURL>
+					<eventSubURL>URL for eventing</eventSubURL>
+				</service>
+					
+			</serviceList>
+			<!--Declarations for other services added by UPnP vendor (if 
+			any) go here-->
+		<deviceList>
+			<!-- Description of embedded devices added by UPnP vendor (if any) go here -->
+		</deviceList>
+		<presentationURL>http://www.apache.org/~donsez/dev/osgi/upnp.devicegen/readme.html</presentationURL>
+	</device>
+</root>
+	

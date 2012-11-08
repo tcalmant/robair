@@ -1,0 +1,90 @@
+<scpd>
+   <serviceStateTable>
+
+      <stateVariable>
+         <name>XMPP_URL</name>
+         <sendEventsAttribute>no</sendEventsAttribute>
+         <dataType>uri</dataType>
+      </stateVariable>
+      <stateVariable>
+         <name>SupportJingleForAV</name>
+         <sendEventsAttribute>no</sendEventsAttribute>
+         <dataType>boolean</dataType>
+      </stateVariable>
+
+      <stateVariable>
+         <name>SIP_URL</name>
+         <sendEventsAttribute>no</sendEventsAttribute>
+         <dataType>uri</dataType>
+      </stateVariable>
+      <stateVariable>
+         <name>SupportSimpleForCommandData</name>
+         <sendEventsAttribute>no</sendEventsAttribute>
+         <dataType>boolean</dataType>
+      </stateVariable>
+
+      <stateVariable>
+         <name>Skype_ID</name>
+         <sendEventsAttribute>no</sendEventsAttribute>
+         <dataType>string</dataType>
+      </stateVariable>
+      <stateVariable>
+         <name>SupportMessageForCommandData</name>
+         <sendEventsAttribute>no</sendEventsAttribute>
+         <dataType>boolean</dataType>
+      </stateVariable>
+
+   </serviceStateTable>
+   <actionList>
+      <action>
+         <Optional/>
+         <name>GetXMPPInfo</name>
+         <argumentList>
+            <argument>
+               <name>XMPP_URL</name>
+               <direction>out</direction>
+               <relatedStateVariable>XMPP_URL</relatedStateVariable>
+            </argument>
+            <argument>
+               <name>SupportJingleForAV</name>
+               <direction>out</direction>
+               <relatedStateVariable>SupportJingleForAV</relatedStateVariable>
+            </argument>
+         </argumentList>
+      </action>
+
+      <action>
+         <Optional/>
+         <name>GetSIPInfo</name>
+         <argumentList>
+            <argument>
+               <name>SIP_URL</name>
+               <direction>out</direction>
+               <relatedStateVariable>SIP_URL</relatedStateVariable>
+            </argument>
+            <argument>
+               <name>SupportSimpleForCommandData</name>
+               <direction>out</direction>
+               <relatedStateVariable>SupportSimpleForCommandData</relatedStateVariable>
+            </argument>
+         </argumentList>
+      </action>
+
+      <action>
+         <Optional/>
+         <name>GetSkypeInfo</name>
+         <argumentList>
+            <argument>
+               <name>Skype_ID</name>
+               <direction>out</direction>
+               <relatedStateVariable>Skype_ID</relatedStateVariable>
+            </argument>
+            <argument>
+               <name>SupportMessageForCommandData</name>
+               <direction>out</direction>
+               <relatedStateVariable>SupportMessageForCommandData</relatedStateVariable>
+            </argument>
+         </argumentList>
+      </action>
+   </actionList>
+</scpd>

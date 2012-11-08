@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RobAIR :: UPnP Robot
+Bundle-SymbolicName: fr.imag.erods.robair.upnp
+Bundle-Vendor: Apache Software Foundation
+Bundle-Version: 1.0.0.qualifier
+Created-By: iPOJO  1.8.0
+Export-Package: org.apache.felix.upnp.devicegen.securitycamera.control
+ point,org.apache.felix.upnp.devicegen.securitycamera.device,org.apach
+ e.felix.upnp.devicegen.securitycamera.model,org.apache.felix.upnp.dev
+ icegen.securitycamera.service,org.robair.wifibot.controlpoint,org.rob
+ air.wifibot.device,org.robair.wifibot.model,org.robair.wifibot.servic
+ e
+Import-Package: fr.imag.erods.robair, org.apache.felix.ipojo;version=1
+ .8.0, org.apache.felix.ipojo.architecture;version=1.8.0, org.apache.f
+ elix.upnp.devicegen.holder, org.apache.felix.upnp.devicegen.util, org
+ .osgi.framework, org.osgi.service.cm;version=1.2, org.osgi.service.lo
+ g;version=1.3, org.osgi.service.upnp;version=1.1.0, org.osgi.util.tra
+ cker;version=1.3.2
+iPOJO-Components: instance { $component="org.robair.wifibot.activator.
+ impl.UPnPComponent" $name="robot-upnp" }component { $classname="org.r
+ obair.wifibot.activator.impl.UPnPComponent" $name="robot-upnp-factory
+ " $public="true" requires { $field="pRobotController" }callback { $tr
+ ansition="invalidate" $method="invalidate" }callback { $transition="v
+ alidate" $method="validate" }manipulation { field { $name="pBundleCon
+ text" $type="org.osgi.framework.BundleContext" }field { $name="pRobot
+ Controller" $type="fr.imag.erods.robair.IRobotController" }field { $n
+ ame="pRobotUpnp" $type="org.robair.wifibot.device.Robot" }method { $n
+ ame="invalidate" }method { $name="validate" }}}
+

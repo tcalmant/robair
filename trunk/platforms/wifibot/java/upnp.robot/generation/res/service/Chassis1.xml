@@ -1,0 +1,184 @@
+<scpd>
+   <serviceStateTable>
+		<stateVariable>
+		  <name>A_ARG_Radius</name>
+		  <sendEventsAttribute>no</sendEventsAttribute>
+		  <dataType>i4</dataType> <!-- in degree; could be > 360 for several rotation ; could be negative -->
+		</stateVariable>
+
+		<stateVariable>
+		  <name>A_ARG_RadiusSpeed</name>
+		  <sendEventsAttribute>no</sendEventsAttribute>
+		  <dataType>i4</dataType> <!-- in degree/second; could be negative -->
+		</stateVariable>
+		
+		<stateVariable>
+		  <name>LeftSpeedTarget</name>
+		  <sendEventsAttribute>no</sendEventsAttribute>
+		  <dataType>i1</dataType> <!-- backward is negative speed -->
+		  <defaultValue>0</defaultValue>
+		</stateVariable>
+
+		<stateVariable>
+		  <name>LeftSpeedStatus</name>
+		  <sendEventsAttribute>yes</sendEventsAttribute>
+		  <dataType>i1</dataType> <!-- backward is negative speed -->
+		  <defaultValue>0</defaultValue>
+		</stateVariable>
+
+		<stateVariable>
+		  <name>RightSpeedTarget</name>
+		  <sendEventsAttribute>no</sendEventsAttribute>
+		  <dataType>i1</dataType> <!-- backward is negative speed -->
+		  <defaultValue>0</defaultValue>
+		</stateVariable>
+
+		<stateVariable>
+		  <name>RightSpeedStatus</name>
+		  <sendEventsAttribute>yes</sendEventsAttribute>
+		  <dataType>i1</dataType> <!-- backward is negative speed -->
+		  <defaultValue>0</defaultValue>
+		</stateVariable>
+   </serviceStateTable>
+   
+   <actionList>
+      <action>
+         <name>SetSpeedTarget</name>
+         <argumentList>
+            <argument>
+               <name>NewRightSpeed</name>
+               <direction>in</direction>
+               <relatedStateVariable>RightSpeedTarget</relatedStateVariable>
+            </argument>
+            <argument>
+               <name>NewLeftSpeed</name>
+               <direction>in</direction>
+               <relatedStateVariable>LeftSpeedTarget</relatedStateVariable>
+            </argument>
+         </argumentList>
+        </action>
+
+      <action>
+         <name>Rotate</name>
+         <argumentList>
+            <argument>
+               <name>Radius</name>
+               <direction>in</direction>
+               <relatedStateVariable>A_ARG_Radius</relatedStateVariable>
+            </argument>
+            <argument>
+               <name>RadiusSpeed</name>
+               <direction>in</direction>
+               <relatedStateVariable>A_ARG_RadiusSpeed</relatedStateVariable>
+            </argument>
+         </argumentList>
+      </action>
+
+      <action>
+         <name>Stop</name>
+      </action>
+
+   </actionList>
+
+<!-- 
+
+   <serviceStateTable>
+		<stateVariable>
+		  <name>A_ARG_Tics</name>
+		  <sendEventsAttribute>no</sendEventsAttribute>
+		  <dataType>ui2</dataType>
+		  <defaultValue>50</defaultValue>
+		  <allowedValueRange>
+			<minimum>0</minimum>
+			<maximum>240</maximum>
+			<step>1</step>
+		  </allowedValueRange>
+		</stateVariable>
+
+		<stateVariable>
+		  <name>A_ARG_Forward</name>
+		  <sendEventsAttribute>no</sendEventsAttribute>
+		  <dataType>boolean</dataType>
+		  <defaultValue>true</defaultValue>
+		</stateVariable>
+
+		<stateVariable>
+		  <name>A_ARG_PIDSpeed</name>
+		  <sendEventsAttribute>no</sendEventsAttribute>
+		  <dataType>ui1</dataType>
+         <allowedValueList>
+            <allowedValue>10</allowedValue>
+            <allowedValue>50</allowedValue>
+         </allowedValueList>
+		  <defaultValue>50</defaultValue>
+		</stateVariable>
+
+
+		<stateVariable>
+		  <name>A_ARG_ClosedLoopSpeedControl</name>
+		  <sendEventsAttribute>no</sendEventsAttribute>
+		  <dataType>boolean</dataType>
+		  <defaultValue>true</defaultValue>
+		</stateVariable>
+
+      <stateVariable>
+         <name>SpeedStatus</name>
+         <sendEventsAttribute>no</sendEventsAttribute>
+         <dataType>string</dataType>
+      </stateVariable>
+
+   </serviceStateTable>
+   <actionList>
+      <action>
+         <name>SetSpeedTarget</name>
+         <argumentList>
+            <argument>
+               <name>RightSpeed</name>
+               <direction>in</direction>
+               <relatedStateVariable>A_ARG_Tics</relatedStateVariable>
+            </argument>
+            <argument>
+               <name>LeftSpeed</name>
+               <direction>in</direction>
+               <relatedStateVariable>A_ARG_Tics</relatedStateVariable>
+            </argument>
+            <argument>
+               <name>RightDirection</name>
+               <direction>in</direction>
+               <relatedStateVariable>A_ARG_Forward</relatedStateVariable>
+            </argument>
+            <argument>
+               <name>LeftDirection</name>
+               <direction>in</direction>
+               <relatedStateVariable>A_ARG_Forward</relatedStateVariable>
+            </argument>
+            <argument>
+               <name>RightPIDSpeed</name>
+               <direction>in</direction>
+               <relatedStateVariable>A_ARG_PIDSpeed</relatedStateVariable>
+            </argument>
+            <argument>
+               <name>LeftPIDSpeed</name>
+               <direction>in</direction>
+               <relatedStateVariable>A_ARG_PIDSpeed</relatedStateVariable>
+            </argument>
+         </argumentList>
+  
+
+      </action>
+      <action>
+         <name>SetPID</name>
+      </action>
+      <action>
+         <name>GetData</name>
+
+
+      </action>
+      <action>
+         <name>TurnLeft</name>
+      </action>
+
+   </actionList>
+   
+    -->
+</scpd>

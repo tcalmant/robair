@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<root>
+	<specVersion>
+		<major>1</major>
+		<minor>0</minor>
+	</specVersion>
+	<URLBase>http://air.imag.fr/mediawiki/index.php/RobAIR-Wifibot</URLBase>
+	<device>
+		<deviceType>urn:schemas-robair-org:device:Robot:1</deviceType>
+		<friendlyName>Robot UPnP Device</friendlyName>
+		<manufacturer>Didier Donsez</manufacturer>
+		<manufacturerURL>http://membres-liglab.imag.fr/donsez/</manufacturerURL>
+		<modelDescription>Robot UPnP Device</modelDescription>
+		<modelName>Robot</modelName>
+		<modelNumber>1</modelNumber>
+		<modelURL>http://air.imag.fr/mediawiki/index.php/RobAIR-Wifibot</modelURL>
+		<serialNumber>123456789</serialNumber>
+		<UDN>uuid:robair-wifibot</UDN>
+		<UPC>upc:robair-wifibot</UPC>
+		<iconList>
+			<icon>
+				<mimetype>image/png</mimetype>
+				<width>180</width>
+				<height>157</height>
+				<depth>16</depth>
+				<url>/icon/wifibot.png</url>
+			</icon>
+		</iconList>
+		<serviceList>
+		
+			<service>
+				<serviceType>urn:schemas-robair-org:service:Chassis:1</serviceType>
+				<serviceId>urn:robair-org:serviceId:Chassis:1</serviceId>
+				<SCPDURL>URL to service description</SCPDURL>
+				<controlURL>URL for control</controlURL>
+				<eventSubURL>URL for eventing</eventSubURL>
+			</service>
+
+			<service>
+				<serviceType>urn:schemas-robair-org:service:IM:1</serviceType>
+				<serviceId>urn:robair-org:serviceId:IM:1</serviceId>
+				<SCPDURL>URL to service description</SCPDURL>
+				<controlURL>URL for control</controlURL>
+				<eventSubURL>URL for eventing</eventSubURL>
+			</service>
+
+			<service>
+				<serviceType>urn:schemas-robair-org:service:Sensor:1</serviceType>
+				<serviceId>urn:robair-org:serviceId:Sensor:1</serviceId>
+				<SCPDURL>URL to service description</SCPDURL>
+				<controlURL>URL for control</controlURL>
+				<eventSubURL>URL for eventing</eventSubURL>
+			</service>
+			
+			<service>
+				<serviceType>urn:schemas-robair-org:service:PositionSensor:1</serviceType>
+				<serviceId>urn:robair-org:serviceId:Position:1</serviceId>
+				<SCPDURL>URL to service description</SCPDURL>
+				<controlURL>URL for control</controlURL>
+				<eventSubURL>URL for eventing</eventSubURL>
+			</service>
+			
+		</serviceList>
+		
+		<deviceList>
+            <Optional/>
+			<deviceType>urn:schemas-upnp-org:device:DigitalSecurityCamera:1</deviceType>
+		</deviceList>
+		
+		<presentationURL>http://air.imag.fr/mediawiki/index.php/RobAIR-Wifibot</presentationURL>
+	</device>
+</root>
