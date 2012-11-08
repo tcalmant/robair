@@ -17,8 +17,8 @@ _logger = logging.getLogger(__name__)
 @ComponentFactory("robot-com-gtalk-factory")
 @Instantiate("robot-com-gtalk")
 @Requires('_dispatcher', 'robair.order.dispatcher')
-@Property('_domain', 'xmpp.domain', 'gmail.com')
-@Property('_server', 'xmpp.server', 'talk.google.com')
+@Property('_domain', 'xmpp.domain')
+@Property('_server', 'xmpp.server')
 @Property('_user', 'xmpp.userid')
 @Property('_password', 'xmpp.password')
 class RobotGtalkCom(object):
@@ -96,7 +96,7 @@ class RobotGtalkCom(object):
         """
         # Connect to gTalk
         # self._xmpp = xmpp.Client('gmail.com')
-        # self._xmpp.connect(server=('talk.google.com', 5223))
+        #  self._xmpp.connect(server=('talk.google.com', 5223))
         self._xmpp = xmpp.Client(self._domain)
         self._xmpp.connect(server=(self._server, 5223))
         self._xmpp.auth(self._user, self._password, 'botty')

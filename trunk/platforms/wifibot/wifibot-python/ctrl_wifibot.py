@@ -19,7 +19,7 @@ ORDER_TARGETS = 'robair.handler.targets'
 @Instantiate('wifibot-tcp-controller')
 @Provides(('robair.control', ORDER_HANDLER), '_svc_controller')
 @Property('_order_target', ORDER_TARGETS, 'robot')
-@Property('_server', 'wifibot.server', '192.168.56.101')
+@Property('_server', 'wifibot.server', 'localhost')
 @Property('_port', 'wifibot.port', 15020)
 class WifibotController(object):
     """

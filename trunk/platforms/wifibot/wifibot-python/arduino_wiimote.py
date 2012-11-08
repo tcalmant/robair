@@ -22,7 +22,8 @@ WIIMOTE_LISTENER = 'arduino.wiimote.listener'
 @Requires('_listeners', WIIMOTE_LISTENER, True, True)
 @Requires('_serial', 'serial.nmea.reader')
 @Property('_nmea_kinds', 'nmea.kinds', '$WICHK')
-@Property('_com_port', 'com.port', '/dev/ttyUSB0')
+# TODO: change the COM port
+@Property('_com_port', 'com.port', '/dev/tty.usbserial.XXXXXX')
 @Property('_baud_rate', 'com.baud_rate', 19200)
 @Property('_threshold', 'data.threshold', 2)
 class ArduinoWiimote(object):

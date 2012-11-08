@@ -21,7 +21,7 @@ SCANNER_LISTENER = 'robair.scanner.listener'
 @Instantiate("data-notifier")
 @Provides((FLAME_LISTENER, SCANNER_LISTENER))
 @Property('_host', 'robair.data.server', 'localhost')
-@Property('_port', 'robair.data.port', 8080)
+@Property('_port', 'robair.data.port', 8090)
 @Property('_uri', 'robair.data.uri', '/data')
 class DataGrabber(object):
     """
@@ -75,7 +75,7 @@ class DataGrabber(object):
         """
         data = values.copy()
         data['device'] = 'flame_detector'
-        data['timestamp'] = time.time() * 1000
+        data['timestamp'] = int(time.time() * 1000)
 
         self.__send_notification(data)
 
@@ -86,7 +86,7 @@ class DataGrabber(object):
         """
         data = values.copy()
         data['device'] = 'scanner'
-        data['timestamp'] = time.time() * 1000
+        data['timestamp'] = int(time.time() * 1000)
 
         self.__send_notification(data)
 
