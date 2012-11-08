@@ -1,7 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: RobAIR :: Controller
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-SymbolicName: fr.imag.erods.robair.controller
 Bundle-Version: 1.0.0.qualifier
 Created-By: iPOJO  1.8.0

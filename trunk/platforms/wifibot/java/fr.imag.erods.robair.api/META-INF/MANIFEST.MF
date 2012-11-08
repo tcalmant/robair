@@ -3,6 +3,5 @@ Bundle-ManifestVersion: 2
 Bundle-Name: RobAIR :: Wiimote :: API
 Bundle-SymbolicName: fr.imag.erods.robair.api
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: fr.imag.erods.robair,
  fr.imag.erods.robair.wiimote
