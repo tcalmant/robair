@@ -82,14 +82,23 @@ class OrderDispatcher(object):
             for handler in handlers:
                 # Call handlers
                 try:
-                    results.append(handler.handle_order(target, command,
-                                                        arguments))
+                    result = handler.handle_order(target, command, arguments)
+                    if result is not None:
+                        # Ignore None results
+                        results.append(result)
 
                 except Exception as ex:
                     # Just log it
                     _logger.exception("Error calling order handler: %s", ex)
 
-            return json.dumps({'results': results})
+            if len(results) == 0:
+                return json.dumps({'message': 'No result'})
+
+            if len(results) == 1:
+                return json.dumps(results[0])
+
+            else:
+                return json.dumps({'results': results})
 
 
     @Bind

@@ -19,7 +19,7 @@ ORDER_TARGETS = 'robair.handler.targets'
 @Instantiate('wifibot-tcp-controller')
 @Provides(('robair.control', ORDER_HANDLER), '_svc_controller')
 @Property('_order_target', ORDER_TARGETS, 'robot')
-@Property('_server', 'wifibot.server', '192.168.16.173')
+@Property('_server', 'wifibot.server', '192.168.56.101')
 @Property('_port', 'wifibot.port', 15020)
 class WifibotController(object):
     """
@@ -35,6 +35,9 @@ class WifibotController(object):
         self._server = None
         self._port = None
 
+        self._speed_left = 0
+        self._speed_right = 0
+
 
     def handle_order(self, target, command, extra):
         """
@@ -47,21 +50,24 @@ class WifibotController(object):
         if command == 'get':
             return self.get_data()
 
+        elif command == 'get_speed':
+            return {'speedL': self._speed_left, 'speedR': self._speed_right}
+
         elif command == 'reset':
             self.reset()
-            return "Control reset"
+            return {'message': 'Control reset'}
 
         elif command == 'set':
 
             if 'speed' in extra:
-                speedL = speedR = extra['speed']
+                self._speed_left = self._speed_right = extra['speed']
 
             else:
-                speedL = extra['speedL']
-                speedR = extra['speedR']
+                self._speed_left = extra['speedL']
+                self._speed_right = extra['speedR']
 
-            self.set_motors(speedL, speedR)
-            return "Speed set: left {0}; right {1}".format(speedL, speedR)
+            self.set_motors(self._speed_left, self._speed_right)
+            return {'speedL': self._speed_left, 'speedR': self._speed_right}
 
         else:
             raise Exception('Unknown command: {0}'.format(command))
@@ -109,6 +115,9 @@ class WifibotController(object):
         """
         Component validation
         """
+        self._speed_left = 0
+        self._speed_right = 0
+
         self._svc_controller = False
         self._robot = wifibot_helper.Wifibot(self)
         self._robot.start_tcp(self._server, int(self._port), blocking=False)
@@ -121,5 +130,8 @@ class WifibotController(object):
         Component invalidation
         """
         _logger.info("Robot controller invalidated")
+        self._speed_left = 0
+        self._speed_right = 0
+
         self._robot.stop()
         self._robot = None
