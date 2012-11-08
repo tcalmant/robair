@@ -11,26 +11,49 @@ Import-Package: fr.imag.erods.robair, javax.servlet, javax.servlet.htt
  tecture;version=1.8.0, org.json, org.osgi.service.cm;version=1.2, org
  .osgi.service.http;version=1.2.0, org.osgi.service.log;version=1.3
 iPOJO-Components: instance { $component="fr.imag.erods.robair.servlet.
- ControlServlet" $name="robair-control-servlet" }component { $classnam
- e="fr.imag.erods.robair.servlet.ControlServlet" $name="robair-control
- -servlet-factory" $public="true" requires { $field="pController" $opt
- ional="true" $id="robot-controller" callback { $method="bindControlle
- r" $type="bind" }callback { $method="unbindController" $type="unbind"
-  }}requires { $field="pHttpService" }properties { property { $name="r
- obair.control.servlet.path" $field="pPath" }}callback { $transition="
- invalidate" $method="invalidate" }callback { $transition="validate" $
- method="validate" }manipulation { $super="javax.servlet.http.HttpServ
- let" field { $name="pController" $type="fr.imag.erods.robair.IRobotCo
- ntroller" }field { $name="pControllerPresent" $type="boolean" }field 
- { $name="pHttpService" $type="org.osgi.service.http.HttpService" }fie
- ld { $name="pPath" $type="java.lang.String" }method { $name="bindCont
- roller" $arguments="{fr.imag.erods.robair.IRobotController}" }method 
- { $name="doGet" $arguments="{javax.servlet.http.HttpServletRequest,ja
- vax.servlet.http.HttpServletResponse}" }method { $name="doPost" $argu
- ments="{javax.servlet.http.HttpServletRequest,javax.servlet.http.Http
- ServletResponse}" }method { $name="executeOrder" $arguments="{org.jso
- n.JSONObject}" }method { $name="invalidate" }method { $name="readJson
- " $return="org.json.JSONObject" $arguments="{java.io.BufferedReader}"
-  }method { $name="unbindController" $arguments="{fr.imag.erods.robair
- .IRobotController}" }method { $name="validate" }}}
+ ControlServlet" $name="robair-control-servlet" }instance { $component
+ ="fr.imag.erods.robair.servlet.DataServlet" $name="robair-data-servle
+ t" }component { $classname="fr.imag.erods.robair.servlet.ControlServl
+ et" $name="robair-control-servlet-factory" $public="true" requires { 
+ $field="pController" $optional="true" $id="robot-controller" callback
+  { $method="bindController" $type="bind" }callback { $method="unbindC
+ ontroller" $type="unbind" }}requires { $field="pHttpService" }propert
+ ies { property { $name="robair.control.servlet.path" $field="pPath" }
+ }callback { $transition="invalidate" $method="invalidate" }callback {
+  $transition="validate" $method="validate" }manipulation { $super="ja
+ vax.servlet.http.HttpServlet" field { $name="pController" $type="fr.i
+ mag.erods.robair.IRobotController" }field { $name="pControllerPresent
+ " $type="boolean" }field { $name="pHttpService" $type="org.osgi.servi
+ ce.http.HttpService" }field { $name="pPath" $type="java.lang.String" 
+ }method { $name="bindController" $arguments="{fr.imag.erods.robair.IR
+ obotController}" }method { $name="doGet" $arguments="{javax.servlet.h
+ ttp.HttpServletRequest,javax.servlet.http.HttpServletResponse}" }meth
+ od { $name="doPost" $arguments="{javax.servlet.http.HttpServletReques
+ t,javax.servlet.http.HttpServletResponse}" }method { $name="executeOr
+ der" $arguments="{org.json.JSONObject}" }method { $name="invalidate" 
+ }method { $name="readJson" $return="org.json.JSONObject" $arguments="
+ {java.io.BufferedReader}" }method { $name="unbindController" $argumen
+ ts="{fr.imag.erods.robair.IRobotController}" }method { $name="validat
+ e" }}}component { $classname="fr.imag.erods.robair.servlet.DataServle
+ t" $name="robair-data-servlet-factory" $public="true" requires { $fie
+ ld="pHttpService" }requires { $aggregate="true" $optional="true" $id=
+ "data-listeners" callback { $method="bindListener" $type="bind" }call
+ back { $method="unbindListener" $type="unbind" }}properties { propert
+ y { $name="robair.control.servlet.path" $field="pPath" }}callback { $
+ transition="invalidate" $method="invalidate" }callback { $transition=
+ "validate" $method="validate" }manipulation { $super="javax.servlet.h
+ ttp.HttpServlet" field { $name="pHttpService" $type="org.osgi.service
+ .http.HttpService" }field { $name="pListeners" $type="java.util.Map" 
+ }field { $name="pPath" $type="java.lang.String" }method { $name="bind
+ Listener" $arguments="{fr.imag.erods.robair.IRobotDataListener}" }met
+ hod { $name="doGet" $arguments="{javax.servlet.http.HttpServletReques
+ t,javax.servlet.http.HttpServletResponse}" }method { $name="doPost" $
+ arguments="{javax.servlet.http.HttpServletRequest,javax.servlet.http.
+ HttpServletResponse}" }method { $name="invalidate" }method { $name="j
+ sonToMap" $return="java.util.Map" $arguments="{org.json.JSONObject}" 
+ }method { $name="notifyData" $arguments="{org.json.JSONObject}" }meth
+ od { $name="readJson" $return="org.json.JSONObject" $arguments="{java
+ .io.BufferedReader}" }method { $name="unbindListener" $arguments="{fr
+ .imag.erods.robair.IRobotDataListener}" }method { $name="validate" }}
+ }
 
