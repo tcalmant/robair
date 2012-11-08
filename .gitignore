@@ -14,4 +14,6 @@
 # Java binary files
 *.class
 *.jar
+target/
+bin/
 
