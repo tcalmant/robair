@@ -6,9 +6,13 @@ package fr.imag.erods.robair.controller;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Instantiate;
@@ -29,23 +33,26 @@ import fr.imag.erods.robair.IRobotController;
 @Instantiate(name = "robair-controller")
 public class RobotController implements IRobotController {
 
+	/** "get_speed" command */
+	private static final String CMD_GET_SPEED = "get_speed";
+
 	/** "reset" command */
 	private static final String CMD_RESET = "reset";
 
 	/** "set" command */
 	private static final String CMD_SET = "set";
 
-	/** Left speed */
-	private static final String CMD_SET_PARAM_SPEED_LEFT = "speedL";
-
-	/** Right speed */
-	private static final String CMD_SET_PARAM_SPEED_RIGHT = "speedR";
-
 	/** Command name in order map */
 	private static final String ORDER_CMD = "cmd";
 
 	/** Target name in order map */
 	private static final String ORDER_TARGET = "target";
+
+	/** Left speed */
+	private static final String PARAM_SPEED_LEFT = "speedL";
+
+	/** Right speed */
+	private static final String PARAM_SPEED_RIGHT = "speedR";
 
 	/** The communication service */
 	@Requires
@@ -57,6 +64,51 @@ public class RobotController implements IRobotController {
 	/** The robot XMPP address */
 	@Property(name = "robot.xmpp.address", value = "tom87.21@gmail.com")
 	private String pRobotXmppAddress;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.imag.erods.robair.IRobotController#getMotorsSpeed()
+	 */
+	@Override
+	public int[] getMotorsSpeed() {
+
+		// Send the order
+		final Future<Map<String, ?>> future = sendCommand(CMD_GET_SPEED, null);
+
+		final int[] result = new int[2];
+		result[0] = 1024;
+		result[1] = -1024;
+
+		try {
+			final Map<String, ?> cmdResult = future.get(5, TimeUnit.SECONDS);
+
+			// Compute the value content
+			final Integer leftSpeed = (Integer) cmdResult.get(PARAM_SPEED_LEFT);
+			final Integer rightSpeed = (Integer) cmdResult
+					.get(PARAM_SPEED_RIGHT);
+
+			if (leftSpeed != null) {
+				result[0] = leftSpeed;
+			}
+
+			if (rightSpeed != null) {
+				result[1] = rightSpeed;
+			}
+
+		} catch (final InterruptedException e) {
+			System.out.println("getMotorsSpeed(): interrupted");
+
+		} catch (final ExecutionException e) {
+			System.out.println("getMotorsSpeed(): error during call");
+			e.printStackTrace();
+
+		} catch (final TimeoutException e) {
+			System.out.println("getMotorsSpeed(): time out expired");
+		}
+
+		return result;
+	}
 
 	/**
 	 * Component invalidated
@@ -117,8 +169,9 @@ public class RobotController implements IRobotController {
 	 *            A command name
 	 * @param aParameters
 	 *            Command arguments if any
+	 * @return The future result
 	 */
-	private void sendCommand(final String aCommand,
+	private Future<Map<String, ?>> sendCommand(final String aCommand,
 			final Map<String, Object> aParameters) {
 
 		// Prepare a map
@@ -132,15 +185,16 @@ public class RobotController implements IRobotController {
 		command.put(ORDER_CMD, aCommand);
 
 		// Send the message
-		final Runnable job = new Runnable() {
+		final Callable<Map<String, ?>> job = new Callable<Map<String, ?>>() {
 
 			@Override
-			public void run() {
-				sendRunner(toJson(command));
+			public Map<String, ?> call() throws Exception {
+				// Call the runner method
+				return sendRunner(toJson(command));
 			}
 		};
 
-		pExecutor.submit(job);
+		return pExecutor.submit(job);
 	}
 
 	/**
@@ -149,16 +203,18 @@ public class RobotController implements IRobotController {
 	 * @param aData
 	 *            Data to send
 	 */
-	private void sendRunner(final String aData) {
+	private Map<String, ?> sendRunner(final String aData) {
 
 		for (final IRobotCommunication com : pCommunications) {
 			try {
-				com.sendMessage(pRobotXmppAddress, aData);
+				return com.sendMessage(pRobotXmppAddress, aData);
 
 			} catch (final Exception ex) {
 				ex.printStackTrace();
 			}
 		}
+
+		return null;
 	}
 
 	/*
@@ -171,8 +227,8 @@ public class RobotController implements IRobotController {
 
 		// Prepare the order
 		final Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put(CMD_SET_PARAM_SPEED_LEFT, normalizeSpeed(aSpeedLeft));
-		parameters.put(CMD_SET_PARAM_SPEED_RIGHT, normalizeSpeed(aSpeedRight));
+		parameters.put(PARAM_SPEED_LEFT, normalizeSpeed(aSpeedLeft));
+		parameters.put(PARAM_SPEED_RIGHT, normalizeSpeed(aSpeedRight));
 
 		// Send the message
 		sendCommand(CMD_SET, parameters);

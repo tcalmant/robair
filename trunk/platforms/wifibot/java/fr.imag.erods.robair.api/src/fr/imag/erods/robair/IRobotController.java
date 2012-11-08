@@ -10,6 +10,13 @@ package fr.imag.erods.robair;
 public interface IRobotController {
 
 	/**
+	 * Retrieves the speed of each motors
+	 * 
+	 * @return [left, right] speeds
+	 */
+	int[] getMotorsSpeed();
+
+	/**
 	 * Resets the motors values
 	 */
 	void reset();

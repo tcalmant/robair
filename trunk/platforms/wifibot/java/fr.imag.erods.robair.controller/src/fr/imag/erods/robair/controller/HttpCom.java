@@ -3,16 +3,18 @@
  */
 package fr.imag.erods.robair.controller;
 
-import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Instantiate;
 import org.apache.felix.ipojo.annotations.Property;
 import org.apache.felix.ipojo.annotations.Provides;
+import org.json.JSONObject;
 
 import fr.imag.erods.robair.IRobotCommunication;
 
@@ -36,41 +38,45 @@ public class HttpCom implements IRobotCommunication {
 	 * java.lang.String)
 	 */
 	@Override
-	public void sendMessage(final String aTo, final String aMessage) {
+	public Map<String, ?> sendMessage(final String aTo, final String aMessage)
+			throws Exception {
 
-		try {
-			final URL url = new URL(pHttpUrl);
-			final HttpURLConnection httpUrl = (HttpURLConnection) url
-					.openConnection();
+		final URL url = new URL(pHttpUrl);
+		final HttpURLConnection httpUrl = (HttpURLConnection) url
+				.openConnection();
 
-			httpUrl.setRequestMethod("POST");
-			httpUrl.setDoOutput(true);
+		httpUrl.setRequestMethod("POST");
+		httpUrl.setDoOutput(true);
 
-			// Write the POST data
-			final byte[] bodyContent = aMessage.getBytes();
-			httpUrl.setRequestProperty("content-length",
-					Integer.toString(bodyContent.length));
-			httpUrl.getOutputStream().write(bodyContent);
+		// Write the POST data
+		final byte[] bodyContent = aMessage.getBytes();
+		httpUrl.setRequestProperty("content-length",
+				Integer.toString(bodyContent.length));
+		httpUrl.getOutputStream().write(bodyContent);
 
-			// Send the request
-			final int code = httpUrl.getResponseCode();
+		// Send the request
+		httpUrl.getResponseCode();
 
-			// Get the result
-			final Scanner scanner = new Scanner(httpUrl.getInputStream());
-			final String response = scanner.useDelimiter("\\A").next();
-			scanner.close();
+		// Get the result
+		final Scanner scanner = new Scanner(httpUrl.getInputStream());
+		final String response = scanner.useDelimiter("\\A").next();
+		scanner.close();
 
-			// Print it in case of error
-			if (code != HttpURLConnection.HTTP_OK) {
-				System.out.println("HTTP Result Code: " + code);
-				System.out.println(response);
-			}
+		// Parse the result
+		final JSONObject jsonResult = new JSONObject(response);
 
-		} catch (final MalformedURLException e) {
-			e.printStackTrace();
+		// Convert it to a map
+		@SuppressWarnings("unchecked")
+		final Iterator<String> keys = jsonResult.keys();
+		final Map<String, Object> resultMap = new LinkedHashMap<>();
 
-		} catch (final IOException e) {
-			e.printStackTrace();
+		while (keys.hasNext()) {
+			final String key = keys.next();
+			final Object value = jsonResult.get(key);
+
+			resultMap.put(key, value);
 		}
+
+		return resultMap;
 	}
 }

@@ -29,8 +29,8 @@ iPOJO-Components: instance { $component="fr.imag.erods.robair.jitsi.Ji
  ,java.lang.String}" }method { $name="getBasicIM" $return="net.java.si
  p.communicator.service.protocol.OperationSetBasicInstantMessaging" $a
  rguments="{net.java.sip.communicator.service.protocol.ProtocolProvide
- rService}" }method { $name="sendMessage" $arguments="{java.lang.Strin
- g,java.lang.String}" }method { $name="unbindProviderService" $argumen
- ts="{net.java.sip.communicator.service.protocol.ProtocolProviderServi
- ce}" }method { $name="updateServiceState" }}}
+ rService}" }method { $name="sendMessage" $return="java.util.Map" $arg
+ uments="{java.lang.String,java.lang.String}" }method { $name="unbindP
+ roviderService" $arguments="{net.java.sip.communicator.service.protoc
+ ol.ProtocolProviderService}" }method { $name="updateServiceState" }}}
 

@@ -5,6 +5,7 @@ package fr.imag.erods.robair.jitsi;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import net.java.sip.communicator.service.protocol.Contact;
 import net.java.sip.communicator.service.protocol.OperationSetBasicInstantMessaging;
@@ -111,7 +112,7 @@ public class JitsiCom implements IRobotCommunication {
 	 * lang.String, java.lang.String)
 	 */
 	@Override
-	public void sendMessage(final String aTo, final String aMessage) {
+	public Map<String, ?> sendMessage(final String aTo, final String aMessage) {
 
 		for (final ProtocolProviderService provider : pProtocolServices) {
 
@@ -128,6 +129,9 @@ public class JitsiCom implements IRobotCommunication {
 				ex.printStackTrace();
 			}
 		}
+
+		// TODO: compute the result
+		return null;
 	}
 
 	/** Called by iPOPO when a provider is gone */
