@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Apache Felix UPnP Device Generator Utilities
+Bundle-SymbolicName: org.apache.felix.upnp.devicegen.util
+Bundle-Version: 0.1.0
+Export-Package: org.apache.felix.upnp.devicegen.holder,
+ org.apache.felix.upnp.devicegen.util,
+ org.apache.felix.upnp.devicegen.uuid
+Bundle-Vendor: Apache Software Foundation
+Import-Package: org.osgi.framework,
+ org.osgi.service.device;version="1.1.0",
+ org.osgi.service.upnp;version="1.1.0"
