@@ -1,0 +1,37 @@
+[This document must be named as serviceType followed by version number and .xml. For example powerservice1.xml, where
+powerservice is the servicetype and 1 is the version number]
+
+<scpd> [Required]
+    <serviceStateTable> [Required]
+        <stateVariable> [Required]
+            <Optional/> [Optional. Present if this State Variable is an Optional variable as defined by the Working committee]
+            <name>        </name> [Required. for every State Variable in the Service]
+            <sendEventsAttribute>no</sendEventsAttribute> [Optional. Present only if the eventingis disabled for this variable].
+            <dataType>    </dataType> [Required. for every State Variable in the Service]
+            <defaultValue>  </defaultValue> [Optional. Present if the Working committee defines a defaultValue.]
+			[either allowedValueRange or allowedValueList could be present. But not both]
+            <allowedValueRange> [Optional. Present if the Working Committee defines atleast either a minimum or a maximum or a step]
+                <minimum>   </minimum> [Optional. Present if the Working Committee defines a constraint]
+                <maximum>   </maximum> [Optional. Present if the Working Committee defines a constraint]
+                <step>      </step> [Optional. Present if the Working Committee defines a constraint]
+            </allowedValueRange>
+			<allowedValueList> [Optional. Present if the Working Committee defines atleast one allowedValue. Must be an ordered List]
+				<allowedValue>   </allowedValue> [Atleast One element must be present.  Currently there is no way to represent optional elements in this list]
+			</allowedValueList>
+        </stateVariable>
+    </serviceStateTable>
+    <actionList> [Optional. Present only if the Service has any actions]
+        <action> [Required. for every action in the Service]
+            <Optional/> [Optional. Present if this Action is an Optional action as defined by the Working committee]
+            <name>          </name> [Required. for every action in the service]
+            <argumentList> [Optional. Must be present only if the action has atleast one argument]  
+                <argument> [Required. for every argument in this action]
+                    <name>  </name> [Required. for every argument in this action]
+                    <direction>     </direction> [Required. for every argument in this action. In Arguments must follow out argument]
+                    <relatedStateVariable>  </relatedStateVariable> [Required. for every argument in this action]
+					<retval/>  [Optional. Must be present if this argument is also a return value. Must be present on atmost one argument which must be the first out argument]
+                </argument>
+            </argumentList>
+        </action>
+    </actionList>
+</scpd>

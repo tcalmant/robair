@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<root>
+	<!-- Device description of a Position Device -->
+	<specVersion>
+		<major>1</major>
+		<minor>0</minor>
+	</specVersion>
+	<URLBase>http://www-adele.imag.fr/users/Didier.Donsez/dev/osgi/</URLBase>
+	<device>
+		<deviceType>urn:schemas-adele-imag-fr:device:PositionDevice:1</deviceType>
+		<friendlyName>Generated Position  UPnP Device</friendlyName>
+		<manufacturer>Didier Donsez</manufacturer>
+		<manufacturerURL>http://www-adele.imag.fr/users/Didier.Donsez</manufacturerURL>
+		<modelDescription>Generated Position UPnP Device</modelDescription>
+		<modelName>Position Device</modelName>
+		<modelNumber>123</modelNumber>
+		<modelURL>http://www-adele.imag.fr/users/Didier.Donsez/dev/osgi/upnpposition/readme.html</modelURL>
+		<serialNumber>123456789</serialNumber>
+		<UDN>uuid:adele-position</UDN>
+		<UPC>upc:adele-position</UPC>
+		<iconList>
+			<icon>
+				<mimetype>image/png</mimetype>
+				<width>49</width>
+				<height>50</height>
+				<depth>16</depth>
+				<url>/icon/compass.png</url>
+			</icon>
+		</iconList>
+		<serviceList>
+			<!--Declarations for other services added by UPnP vendor (if any) go here-->
+			<service>
+				<serviceType>urn:adele-imag-fr:service:PositionSensor:1</serviceType>
+				<serviceId>urn:adele-imag-fr:serviceId:PositionSensor:1</serviceId>
+				<SCPDURL>URL to service description</SCPDURL>
+				<controlURL>URL for control</controlURL>
+				<eventSubURL>URL for eventing</eventSubURL>
+			</service>
+		</serviceList>
+		<deviceList>
+			<!-- Description of embedded devices added by UPnP vendor (if any) go here -->
+		</deviceList>
+		<presentationURL>http://www-adele.imag.fr/users/Didier.Donsez/dev/osgi/upnpposition/readme.html</presentationURL>
+	</device>
+</root>

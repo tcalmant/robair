@@ -1,0 +1,59 @@
+<project name="BuildFile Generation" default="main" basedir=".">
+
+	<property file="${properties}"/>
+	
+	<target name="main" depends="init, generate.class"></target>
+
+	<target name="init">
+		<mkdir dir="generated"/>
+		<tstamp>
+			<format property="date" pattern="d-MMMM-yyyy" locale="en"/>
+		</tstamp>
+		<property name="author" value="Didier DONSEZ"/>
+		<javac destdir=".">
+   		 	<src path="."/>
+    		<include name="*.java"/>
+		</javac>
+	</target>
+
+	<target name="generate.class">
+		
+		<echo>Generation of ${device.name} ...</echo>
+
+			<delete file="generated/build.sources.xml"/>
+
+			<xslt in="${device.description.xml.file}" out="generated/build.sources.xml" style="device2build.xsl"
+			classpath="." >
+			<param name="date" expression="${date}"/>
+			<param name="author" expression="${author}"/>
+			<param name="package" expression="${package}"/>
+			<param name="classname" expression="${device.name}"/>
+			<param name="descriptionfilename" expression="${device.description.xml.file}"/>
+			<outputproperty name="encoding" value="ISO-8859-1"/>
+			<outputproperty name="indent" value="yes"/>
+		</xslt>
+
+		<ant antfile="generated/build.sources.xml" dir="."/>
+
+		<echo>Generation of ${device.name} Completed</echo>
+
+		<copy todir="../res">
+			<fileset dir="generated/res"/>
+		</copy>
+
+		<copy todir="../src">
+			<fileset dir="generated/src"/>
+		</copy>
+
+		<copy todir="../manifest">
+			<fileset dir="generated/manifest"/>
+		</copy>
+
+	</target>
+
+   	<!-- clean generated files and backup files -->
+	<target name="clean">
+		<delete dir="generated"/>
+	</target>
+
+</project>

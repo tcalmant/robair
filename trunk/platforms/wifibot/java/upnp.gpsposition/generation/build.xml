@@ -1,0 +1,22 @@
+<project name="OSGi UPnP Device Driver Source Generation" default="main" basedir=".">
+
+	<target name="main" depends="init, generate.class">
+	</target>
+
+	<target name="init">
+		<mkdir dir="generated"/>
+	</target>
+
+	<target name="generate.class">
+		
+		<!-- GPS -->
+		<ant antfile="build.device.xml" target="generate.class" inheritall="true">
+			<property name="properties" value="res/project.PositionDevice1.properties" />
+		</ant>		
+	</target>
+
+	<target name="clean">
+		<delete dir="generated"/>
+	</target>
+
+</project>

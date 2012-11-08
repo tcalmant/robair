@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<Schema name="event-1-0" 
+    xmlns ="urn:schemas-microsoft-com:xml-data"
+    xmlns:dt="urn:schemas-microsoft-com:datatypes">
+  <ElementType name="propertyset" content="eltOnly">
+    <element type="property" minOccurs="1" maxOccurs="*" />
+  </ElementType>
+  <ElementType name="property" content="eltOnly" />
+</Schema>

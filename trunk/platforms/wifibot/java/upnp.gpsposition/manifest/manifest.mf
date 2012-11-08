@@ -1,0 +1,20 @@
+Bundle-SymbolicName: fr.imag.adele.UPnPGPSDevice
+Bundle-Name: UPnP GPS Device
+Bundle-Description: This bundle provides a UPnPDevice which provides GPS positions from a GPS receiver connected to a serial port
+Bundle-UpdateLocation: http://www-adele.imag.fr/users/Didier.Donsez/dev/osgi/upnpposition/upnpposition.jar
+Bundle-SourceURL: http://www-adele.imag.fr/users/Didier.Donsez/dev/osgi/upnpposition/upnpposition-src.jar
+Bundle-DocURL: http://www-adele.imag.fr/users/Didier.Donsez/dev/osgi/upnpposition/readme.html
+Bundle-Vendor: Didier DONSEZ
+Bundle-Version: 0.3.0
+Bundle-Copyright: Library GNU Public License
+Bundle-ContactAddress: Didier DONSEZ (didier.donsez@ieee.org)
+Bundle-Activator: fr.imag.adele.bundle.upnp.activator.impl.Activator
+Bundle-ClassPath: .,gpstool.jar
+Import-Package: org.osgi.framework,
+ javax.comm, 
+ org.osgi.service.upnp; specification-version=1.0.0,
+ it.cnr.isti.niche.osgi.upnp.util; specification-version=1.0.0,
+ fr.imag.adele.util.upnp; specification-version=1.0.0,
+ fr.imag.adele.util.upnp.holder; specification-version=1.0.0
+Export-Service: org.osgi.service.upnp.UPnPDevice
+Config-Location: /initialstate.properties
